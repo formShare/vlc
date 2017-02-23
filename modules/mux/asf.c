@@ -659,7 +659,9 @@ static void DelStream( sout_mux_t *p_mux, sout_input_t *p_input )
 
     if( p_sys->b_asf_http )
     {
-        vlc_array_remove( &p_sys->tracks, vlc_array_index_of_item( &p_sys->tracks, tk ) );
+        ssize_t i_idx = vlc_array_index_of_item( &p_sys->tracks, tk );
+        if( i_idx >= 0 )
+            vlc_array_remove( &p_sys->tracks, (size_t) i_idx );
         p_sys->b_write_header = true;
     }
 }
