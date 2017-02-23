@@ -457,11 +457,11 @@ static void remove_watch( DBusWatch *p_watch, void *p_data )
 {
     intf_thread_t *p_intf = (intf_thread_t*) p_data;
     intf_sys_t    *p_sys  = (intf_sys_t*) p_intf->p_sys;
-    size_t idx;
 
     vlc_mutex_lock( &p_sys->lock );
-    idx = vlc_array_index_of_item( &p_sys->watches, p_watch );
-    vlc_array_remove( &p_sys->watches, idx );
+    ssize_t idx = vlc_array_index_of_item( &p_sys->watches, p_watch );
+    if( idx >= 0 )
+        vlc_array_remove( &p_sys->watches, (size_t) idx );
     vlc_mutex_unlock( &p_sys->lock );
 }
 
