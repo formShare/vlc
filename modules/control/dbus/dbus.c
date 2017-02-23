@@ -352,11 +352,11 @@ static void remove_timeout(DBusTimeout *to, void *data)
 {
     intf_thread_t *intf = data;
     intf_sys_t *sys = intf->p_sys;
-    size_t idx;
 
     vlc_mutex_lock(&sys->lock);
-    idx = vlc_array_index_of_item(&sys->timeouts, to);
-    vlc_array_remove(&sys->timeouts, idx);
+    ssize_t idx = vlc_array_index_of_item(&sys->timeouts, to);
+    if (idx >= 0)
+        vlc_array_remove(&sys->timeouts, (size_t) idx);
     vlc_mutex_unlock(&sys->lock);
 }
 
